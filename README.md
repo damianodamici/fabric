@@ -1,3 +1,3 @@
 # Fabric
 
-In this repo you can find all the ongoing work on Hyperledger Fabric.
+In this repo you can find all my ongoing work on Hyperledger Fabric.
