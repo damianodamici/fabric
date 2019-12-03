@@ -1,6 +1,6 @@
 PREFACE
 
-We are using Hyperledger Fabric version 1.4.4. It is assumed that all prerequisites and binaries are installed. This tutorial mirrors the byfn example found in the fabric-samples folder that is cloned from GitHub while setting up the prerequisites. The following steps concern the creation of a simple custom network from scratch that can be then deployed and tested locally.
+We are using Hyperledger Fabric version 1.4.4. It is assumed that all prerequisites and binaries are installed. This tutorial mirrors the byfn example found in the fabric-samples folder that is cloned from GitHub while setting up the prerequisites. You can find all the yaml files you need there, so I won't include them in the repo other than pasting them here. The following steps concern the creation of a simple custom network from scratch that can be then deployed and tested locally. 
 
 WORKFLOW
 
