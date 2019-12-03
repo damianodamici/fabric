@@ -114,7 +114,7 @@ PeerOrgs:
       Count: 2
     Users:
       Count: 1
-	  
+	   
 # crypto-config.yaml end #
 	  
 Note that you can add as many orderers and orgs as you like, and once they are defined in the crypto-config.yaml file the cryptogen tool will generate their certs and keys. Further note that the crypto-config.yaml file lists five orderers as being tied to the orderer organization. While the cryptogen tool will create certificates for all five of these orderers, unless the Raft or Kafka ordering services are being used, only one of these orderers will be used in a Solo ordering service implementation and be used to create the system channel and mychannel.
