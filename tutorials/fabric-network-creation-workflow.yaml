@@ -160,6 +160,7 @@ Below I have pasted the configtx.yaml file as found in first-network folder of t
 
 # configtx.yaml start #
 
+---
 ################################################################################
 #
 #   Section: Organizations
