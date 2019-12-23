@@ -36,9 +36,6 @@
 # disable verbose logging level
 exportPaths
 
-# export strings for CA_1 and CA_2 key paths
-exportCaPrivKeyPath
-
 # Parse commandline args to determine mode
 if [ "$1" = "-m" ]; then 
   shift
