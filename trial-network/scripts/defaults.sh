@@ -33,15 +33,6 @@ function exportPaths() {
 	export ORG2_DOMAIN=example.com
 }
 
-function exportCaPrivKeyPath() {
-
-	# default dir for ca1 private key
-    export CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/"$ORG1_NAME"."$ORG1_DOMAIN"/ca && ls *_sk)
-	
-	# default dir for ca2 private key
-    export CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/"$ORG2_NAME"."$ORG2_DOMAIN"/ca && ls *_sk)
-}
-
 # Obtain the OS and Architecture string that will be used to select the correct
 # native binaries for your platform, e.g., darwin-amd64 or linux-amd64
 OS_ARCH=$(echo "$(uname -s | tr '[:upper:]' '[:lower:]' | sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')

@@ -15,7 +15,9 @@ function networkUp() {
   if [ ! -d "crypto-config" ]; then
     generateCerts
     replacePrivateKey
-    generateChannelArtifacts
+    generateChannelArtifacts 
+  # export strings for CA_1 and CA_2 key paths
+  else exportCaPrivKeyPath
   fi
   
   # here we set all the docker compose files we need to feed the command to have our settings in place
