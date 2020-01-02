@@ -1,41 +1,41 @@
 ---
-name: first-network-org${ORG}
+name: connection-profile-org${ORG_NUM}
 version: 1.0.0
 client:
-  organization: Org${ORG}
+  organization: ORG_NAME
   connection:
     timeout:
       peer:
         endorser: '300'
 organizations:
-  Org${ORG}:
-    mspid: Org${ORG}MSP
+  ORG_NAME:
+    mspid: ORG_MSP_NAME
     peers:
-    - peer0.org${ORG}.example.com
-    - peer1.org${ORG}.example.com
+    - peer0.ORG_DOMAIN
+    - peer1.ORG_DOMAIN
     certificateAuthorities:
-    - ca.org${ORG}.example.com
+    - ca.ORG_DOMAIN
 peers:
-  peer0.org${ORG}.example.com:
+  peer0.ORG_DOMAIN:
     url: grpcs://localhost:${P0PORT}
     tlsCACerts:
       pem: |
         ${PEERPEM}
     grpcOptions:
-      ssl-target-name-override: peer0.org${ORG}.example.com
-      hostnameOverride: peer0.org${ORG}.example.com
-  peer1.org${ORG}.example.com:
+      ssl-target-name-override: peer0.ORG_DOMAIN
+      hostnameOverride: peer0.ORG_DOMAIN
+  peer1.ORG_DOMAIN:
     url: grpcs://localhost:${P1PORT}
     tlsCACerts:
       pem: |
         ${PEERPEM}
     grpcOptions:
-      ssl-target-name-override: peer1.org${ORG}.example.com
-      hostnameOverride: peer1.org${ORG}.example.com
+      ssl-target-name-override: peer1.ORG_DOMAIN
+      hostnameOverride: peer1.ORG_DOMAIN
 certificateAuthorities:
-  ca.org${ORG}.example.com:
+  ca.ORG_DOMAIN:
     url: https://localhost:${CAPORT}
-    caName: ca-org${ORG}
+    caName: ca-org${ORG_NUM}
     tlsCACerts:
       pem: |
         ${CAPEM}
