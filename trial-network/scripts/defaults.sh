@@ -20,17 +20,33 @@ function exportPaths() {
 	# disable verbose logging level
 	export VERBOSE=false
 	
-	# default org1 name
-	export ORG1_NAME=org1
+	# default orderer name
+	export ORDERER_NAME=Orderer
 	
-	# default org2 name
-	export ORG2_NAME=org2
+	# default orderer domain
+	export ORDERER_DOMAIN=example.com
+	
+	# default orderer MSP name and ID
+	export ORDERER_MSP_NAME="$ORDERER_NAME"MSP
+	
+	# default org1 name
+	export ORG1_NAME=Org1
 	
 	# default org1 domain
-	export ORG1_DOMAIN=example.com
+	export ORG1_DOMAIN=org1.example.com
+	
+	# default org1 MSP name and ID
+	export ORG1_MSP_NAME="$ORG1_NAME"MSP
+	
+	# default org2 name
+	export ORG2_NAME=Org2	
 	
 	# default org2 domain
-	export ORG2_DOMAIN=example.com
+	export ORG2_DOMAIN=org2.example.com
+	
+	# default org2 MSP name and ID
+	export ORG2_MSP_NAME="$ORG2_NAME"MSP
+	
 }
 
 # Obtain the OS and Architecture string that will be used to select the correct

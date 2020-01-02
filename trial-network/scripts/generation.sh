@@ -5,14 +5,49 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Fill yaml templates with default values
+function fillCertsTemplates() {
 
+  echo "Filling certs templates (crypto-config and configtx) with default values."
+
+  # sed on MacOSX does not support -i flag with a null extension. We will use
+  # 't' for our back-up's extension and delete it at the end of the function
+  ARCH=$(uname -s | grep Darwin)
+  if [ "$ARCH" == "Darwin" ]; then
+    OPTS="-it"
+  else
+    OPTS="-i"
+  fi
+
+  # Copy the template to the file that will be modified
+  cp crypto-config-template.yaml crypto-config.yaml
+  cp configtx-template.yaml configtx.yaml
+  
+  sed $OPTS "s/ORDERER_NAME/${ORDERER_NAME}/g" crypto-config.yaml 
+  sed $OPTS "s/ORDERER_DOMAIN/${ORDERER_DOMAIN}/g" crypto-config.yaml configtx.yaml
+  sed $OPTS "s/ORG1_NAME/${ORG1_NAME}/g" crypto-config.yaml 
+  sed $OPTS "s/ORG1_DOMAIN/${ORG1_DOMAIN}/g" crypto-config.yaml configtx.yaml
+  sed $OPTS "s/ORG2_NAME/${ORG2_NAME}/g" crypto-config.yaml 
+  sed $OPTS "s/ORG2_DOMAIN/${ORG2_DOMAIN}/g" crypto-config.yaml configtx.yaml
+  sed $OPTS "s/ORDERER_MSP_NAME/${ORDERER_MSP_NAME}/g" configtx.yaml
+  sed $OPTS "s/ORG1_MSP_NAME/${ORG1_MSP_NAME}/g" configtx.yaml
+  sed $OPTS "s/ORG2_MSP_NAME/${ORG2_MSP_NAME}/g" configtx.yaml
+  
+  # If MacOSX, remove the temporary backup of the docker-compose file
+  if [ "$ARCH" == "Darwin" ]; then
+    rm crypto-config.yaml
+    rm configtx.yaml
+  fi
+}
+
+# Export paths for CA Private Keys so we can use string
 function exportCaPrivKeyPath() {
 
 	# default dir for ca1 private key
-    export CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/"$ORG1_NAME"."$ORG1_DOMAIN"/ca && ls *_sk)
+    export CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/"$ORG1_DOMAIN"/ca && ls *_sk)
 	
 	# default dir for ca2 private key
-    export CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/"$ORG2_NAME"."$ORG2_DOMAIN"/ca && ls *_sk)
+    export CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/"$ORG2_DOMAIN"/ca && ls *_sk)
 }
 
 # Using docker-compose-e2e-template.yaml, replace constants with private key file names
@@ -35,11 +70,11 @@ function replacePrivateKey() {
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
   CURRENT_DIR=$PWD
-  cd crypto-config/peerOrganizations/"$ORG1_NAME"."$ORG1_DOMAIN"/ca/
+  cd crypto-config/peerOrganizations/"$ORG1_DOMAIN"/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-  cd crypto-config/peerOrganizations/"$ORG2_NAME"."$ORG2_DOMAIN"/ca/
+  cd crypto-config/peerOrganizations/"$ORG2_DOMAIN"/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
@@ -69,6 +104,9 @@ function replacePrivateKey() {
 # Generates Org certs using cryptogen tool
 function generateCerts() {
 
+  # fill certs templates with default values
+  fillCertsTemplates
+
   # check if cryptogen tool is found in a $PATH directory
   which cryptogen
   if [ "$?" -ne 0 ]; then
@@ -96,7 +134,7 @@ function generateCerts() {
   ./scripts/ccp-generate.sh
   
   # This needs to be done because some paths in the msp config.yaml are erroneously written with \ instead of /
-  echo "Fix path bug"
+  echo "Fixing path bug."
   find crypto-config -type f -name "config.yaml" -exec sed -i 's/\\/\//g' {} \;
   
   # export strings for CA_1 and CA_2 key paths
@@ -191,11 +229,11 @@ function generateChannelArtifacts() {
   echo "#######    Generating anchor peer update for Org1MSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -configPath . -profile TwoOrgsChannel -outputAnchorPeersUpdate channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  configtxgen -configPath . -profile TwoOrgsChannel -outputAnchorPeersUpdate channel-artifacts/"$ORG1_MSP_NAME"anchors.tx -channelID $CHANNEL_NAME -asOrg "$ORG1_MSP_NAME"
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org1MSP..."
+    echo "Failed to generate anchor peer update for $ORG1_MSP_NAME..."
     exit 1
   fi
 
@@ -205,11 +243,11 @@ function generateChannelArtifacts() {
   echo "#################################################################"
   set -x
   configtxgen -configPath . -profile TwoOrgsChannel -outputAnchorPeersUpdate \
-    channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+    channel-artifacts/"$ORG2_MSP_NAME"anchors.tx -channelID $CHANNEL_NAME -asOrg "$ORG2_MSP_NAME"
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
+    echo "Failed to generate anchor peer update for $ORG2_MSP_NAME..."
     exit 1
   fi
   echo
