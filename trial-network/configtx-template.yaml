@@ -417,7 +417,7 @@ Profiles:
                 - Host: orderer5.ORDERER_DOMAIN
                   Port: 7050
                   ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer5.ORDERER_DOMAIN/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAINorderers/orderer5.ORDERER_DOMAIN/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer5.ORDERER_DOMAIN/tls/server.crt
             Addresses:
                 - orderer.ORDERER_DOMAIN:7050
                 - orderer2.ORDERER_DOMAIN:7050
