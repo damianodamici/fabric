@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Fill yaml templates with default values
+# Fill certs templates (crypto-config and configtx) with default values
 function fillCertsTemplates() {
 
   echo "Filling certs templates (crypto-config and configtx) with default values."
@@ -33,11 +33,49 @@ function fillCertsTemplates() {
   sed $OPTS "s/ORG1_MSP_NAME/${ORG1_MSP_NAME}/g" configtx.yaml
   sed $OPTS "s/ORG2_MSP_NAME/${ORG2_MSP_NAME}/g" configtx.yaml
   
-  # If MacOSX, remove the temporary backup of the docker-compose file
+  # If MacOSX, remove temporary backups
   if [ "$ARCH" == "Darwin" ]; then
     rm crypto-config.yaml
     rm configtx.yaml
   fi
+}
+
+# Fill docker base templates with default values
+function fillDockerBaseTemplates() {
+
+  echo "Filling Docker base templates with default values."
+
+  # sed on MacOSX does not support -i flag with a null extension. We will use
+  # 't' for our back-up's extension and delete it at the end of the function
+  ARCH=$(uname -s | grep Darwin)
+  if [ "$ARCH" == "Darwin" ]; then
+    OPTS="-it"
+  else
+    OPTS="-i"
+  fi
+
+  CURRENT_DIR=$PWD
+
+  cd base
+
+  # Copy the template to the file that will be modified
+  cp docker-compose-base-template.yaml docker-compose-base.yaml
+  cp peer-base-template.yaml peer-base.yaml
+  
+  sed $OPTS "s/ORDERER_DOMAIN/${ORDERER_DOMAIN}/g" docker-compose-base.yaml
+  sed $OPTS "s/ORG1_DOMAIN/${ORG1_DOMAIN}/g" docker-compose-base.yaml
+  sed $OPTS "s/ORG2_DOMAIN/${ORG2_DOMAIN}/g" docker-compose-base.yaml
+  sed $OPTS "s/ORDERER_MSP_NAME/${ORDERER_MSP_NAME}/g" peer-base.yaml
+  sed $OPTS "s/ORG1_MSP_NAME/${ORG1_MSP_NAME}/g" docker-compose-base.yaml
+  sed $OPTS "s/ORG2_MSP_NAME/${ORG2_MSP_NAME}/g" docker-compose-base.yaml
+  
+  # If MacOSX, remove temporary backups
+  if [ "$ARCH" == "Darwin" ]; then
+    rm docker-compose-base.yaml
+    rm peer-base.yaml
+  fi
+
+  cd "$CURRENT_DIR"
 }
 
 # Export paths for CA Private Keys so we can use string

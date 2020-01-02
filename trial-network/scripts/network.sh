@@ -19,6 +19,9 @@ function networkUp() {
   # export strings for CA_1 and CA_2 key paths
   else exportCaPrivKeyPath
   fi
+
+  # Fill docker base templates with default values
+  fillDockerBaseTemplates
   
   # here we set all the docker compose files we need to feed the command to have our settings in place
   COMPOSE_FILES="-f ${COMPOSE_FILE}"
