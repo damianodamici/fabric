@@ -31,18 +31,24 @@ function exportPaths() {
 	
 	# default org1 name
 	export ORG1_NAME=Org1
+
+	# default org1 name (lowercase)
+	export ORG1_LOWERCASE_NAME="${ORG1_NAME,,}"
 	
 	# default org1 domain
-	export ORG1_DOMAIN=org1.example.com
+	export ORG1_DOMAIN="$ORG1_LOWERCASE_NAME".example.com
 	
 	# default org1 MSP name and ID
 	export ORG1_MSP_NAME="$ORG1_NAME"MSP
 	
 	# default org2 name
 	export ORG2_NAME=Org2	
+
+	# default org2 name (lowercase)
+	export ORG2_LOWERCASE_NAME="${ORG2_NAME,,}"
 	
 	# default org2 domain
-	export ORG2_DOMAIN=org2.example.com
+	export ORG2_DOMAIN="$ORG2_LOWERCASE_NAME".example.com
 	
 	# default org2 MSP name and ID
 	export ORG2_MSP_NAME="$ORG2_NAME"MSP
