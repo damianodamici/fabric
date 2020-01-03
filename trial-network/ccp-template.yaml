@@ -1,5 +1,5 @@
 ---
-name: connection-profile-org${ORG_NUM}
+name: connection-profile-ORG_LOWERCASE_NAME
 version: 1.0.0
 client:
   organization: ORG_NAME
@@ -35,7 +35,7 @@ peers:
 certificateAuthorities:
   ca.ORG_DOMAIN:
     url: https://localhost:${CAPORT}
-    caName: ca-org${ORG_NUM}
+    caName: ca-ORG_LOWERCASE_NAME
     tlsCACerts:
       pem: |
         ${CAPEM}
