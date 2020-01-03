@@ -23,6 +23,9 @@ function exportPaths() {
 	# default orderer name
 	export ORDERER_NAME=Orderer
 	
+	# default orderer name (lowercase)
+	export ORDERER_LOWERCASE_NAME="${ORDERER_NAME,,}"
+	
 	# default orderer domain
 	export ORDERER_DOMAIN=example.com
 	

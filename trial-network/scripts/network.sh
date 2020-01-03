@@ -22,6 +22,9 @@ function networkUp() {
 
   # Fill docker base templates with default values
   fillDockerBaseTemplates
+
+  # Fill docker compose templates with default values
+  fillDockerComposeTemplates
   
   # here we set all the docker compose files we need to feed the command to have our settings in place
   COMPOSE_FILES="-f ${COMPOSE_FILE}"
@@ -81,7 +84,11 @@ function networkDown() {
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
     rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
-    # remove the docker-compose yaml file that was customized to the example
-    rm -f docker-compose-e2e.yaml
+    # remove all docker compose files generated from templates
+    rm -f docker-compose-ca.yaml docker-compose-ca.yaml docker-compose-cli.yaml docker-compose-couch.yaml docker-compose-etcdraft2.yaml docker-compose-kafka.yaml base/peer-base.yaml base/docker-compose-base.yaml
+    # remove certs files generated from templates
+	rm -f crypto-config.yaml configtx.yaml
+    # remove connection profiles
+	rm -f connection-org1.yaml connection-org1.json connection-org2.yaml connection-org2.json
   fi
 }
