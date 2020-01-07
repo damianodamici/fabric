@@ -6,9 +6,11 @@
 #
 
 # Fill certs templates (crypto-config and configtx) with default values
-function fillCertsTemplates() {
+function fillBaseTemplates() {
 
-  echo "Filling certs templates (crypto-config and configtx) with default values."
+  echo
+  echo "Fill templates (crypto-config and configtx) with default values"
+  echo
 
   # sed on MacOSX does not support -i flag with a null extension. We will use
   # 't' for our back-up's extension and delete it at the end of the function
@@ -45,7 +47,7 @@ function fillCertsTemplates() {
 # Fill docker base templates with default values
 function fillDockerBaseTemplates() {
 
-  echo "Filling Docker base templates with default values."
+  echo "Fill Docker base templates with default values"
 
   # sed on MacOSX does not support -i flag with a null extension. We will use
   # 't' for our back-up's extension and delete it at the end of the function
@@ -85,7 +87,7 @@ function fillDockerBaseTemplates() {
 # Fill docker compose templates with default values
 function fillDockerComposeTemplates() {
 
-  echo "Filling Docker compose templates with default values."
+  echo "Fill Docker compose templates with default values."
 
   # sed on MacOSX does not support -i flag with a null extension. We will use
   # 't' for our back-up's extension and delete it at the end of the function
@@ -191,8 +193,8 @@ function replacePrivateKey() {
 # Generates Org certs using cryptogen tool
 function generateCerts() {
 
-  # fill certs templates with default values
-  fillCertsTemplates
+  # fill base templates with default values
+  fillBaseTemplates
 
   # check if cryptogen tool is found in a $PATH directory
   which cryptogen
@@ -217,11 +219,13 @@ function generateCerts() {
     exit 1
   fi
   echo
-  echo "Generate CCP files for Org1 and Org2"
+  echo "Generate CCP files"
+  echo
   ./scripts/ccp-generate.sh
   
   # This needs to be done because some paths in the msp config.yaml are erroneously written with \ instead of /
-  echo "Fixing path bug."
+  echo "Fix path bug"
+  echo
   find crypto-config -type f -name "config.yaml" -exec sed -i 's/\\/\//g' {} \;
   
   # export strings for CA_1 and CA_2 key paths
@@ -274,6 +278,7 @@ function generateChannelArtifacts() {
     exit 1
   fi
 
+  echo
   echo "##########################################################"
   echo "#########  Generating Orderer Genesis block ##############"
   echo "##########################################################"

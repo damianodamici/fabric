@@ -16,6 +16,8 @@ function assignModeString() {
 	  EXPMODE="Restarting"
 	elif [ "$MODE" == "generate" ]; then
 	  EXPMODE="Generating certs and genesis block"
+	elif [ "$MODE" == "channel" ]; then
+	  EXPMODE="Creating channel, setting anchor peers, and having peers join it"
 	else
 	  printHelp
 	  exit 1
@@ -35,11 +37,12 @@ function announceSelection() {
 function printHelp() {
   echo "Usage: "
   echo "  main.sh <mode> [-c <channel name>] [-t <timeout>] [-d <delay>] [-f <docker-compose-file>] [-s <dbtype>] [-l <language>] [-o <consensus-type>] [-i <imagetag>] [-a] [-n] [-v]"
-  echo "    <mode> - one of 'up', 'down', 'restart' or 'generate'"
+  echo "    <mode> - one of 'up', 'down', 'restart', 'generate', or 'channel'"
   echo "      - 'up' - bring up the network with docker-compose up"
   echo "      - 'down' - clear the network with docker-compose down"
   echo "      - 'restart' - restart the network"
   echo "      - 'generate' - generate required certificates and genesis block"
+  echo "      - 'channel' - create channel, set anchor peers, and have peers join it"
   echo "    -c <channel name> - channel name to use (defaults to \"mychannel\")"
   echo "    -t <timeout> - CLI timeout duration in seconds (defaults to 10)"
   echo "    -d <delay> - delay duration in seconds (defaults to 3)"

@@ -57,13 +57,6 @@ function networkUp() {
     echo "Sleeping 15s to allow $CONSENSUS_TYPE cluster to complete booting"
     sleep 14
   fi
-
-  # now run the end to end script
-  docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
-  if [ $? -ne 0 ]; then
-    echo "ERROR !!!! Test failed"
-    exit 1
-  fi
 }
 
 # Tear down running network
@@ -86,7 +79,7 @@ function networkDown() {
     rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
     # remove all docker compose files generated from templates
     rm -f docker-compose-ca.yaml docker-compose-ca.yaml docker-compose-cli.yaml docker-compose-couch.yaml docker-compose-etcdraft2.yaml docker-compose-kafka.yaml base/peer-base.yaml base/docker-compose-base.yaml
-    # remove certs files generated from templates
+    # remove base config files generated from templates
 	rm -f crypto-config.yaml configtx.yaml
     # remove connection profiles
 	rm -f connection-org1.yaml connection-org1.json connection-org2.yaml connection-org2.json

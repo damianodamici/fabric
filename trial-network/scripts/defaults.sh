@@ -8,7 +8,7 @@
 # add binaries directory to collection of $PATH directories
 # export configtx.yaml path to FABRIC_CFG_PATH so the script knows where to find it
 # disable verbose logging level
-function exportPaths() {
+function exportDefaults() {
 
 	# prepending $PWD/../bin to PATH to ensure we are picking up the correct binaries
 	# this may be commented out to resolve installed version of tools if desired
@@ -56,6 +56,9 @@ function exportPaths() {
 	# default org2 MSP name and ID
 	export ORG2_MSP_NAME="$ORG2_NAME"MSP
 	
+	# default channel name
+	export CHANNEL_NAME="mychannel"
+	
 }
 
 # Obtain the OS and Architecture string that will be used to select the correct
@@ -71,9 +74,6 @@ CLI_DELAY=3
 
 # system channel name defaults to "byfn-sys-channel"
 SYS_CHANNEL="byfn-sys-channel"
-
-# channel name defaults to "mychannel"
-CHANNEL_NAME="mychannel"
 
 # ca launch set to true by default
 CERTIFICATE_AUTHORITIES=true
