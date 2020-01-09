@@ -14,7 +14,7 @@ With the latter purpose in mind all yaml files have been converted into template
 
 Moreover, the following additional modes have been created for the main.sh script:
 
-- Channel Mode: this mode, invocable with the command './main.sh channel', creates a channel according to the default configurations [1], sets the anchor peers for each of the two initial orgs [2], and makes all peers for each of the two orgs join the channel. 
+- Channel Mode: this mode, invocable with the command './main.sh channel', creates a channel according to the default configuration [1], sets the anchor peers for each of the two initial orgs [2], and makes all peers for each of the two orgs join the channel. 
 
 Notes: 
 
