@@ -71,7 +71,7 @@ Organizations:
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
             - Host: peer0.ORG1_DOMAIN
-              Port: 7051
+              Port: PEER0_ORG1_PORT
 
     - &Org2
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -102,7 +102,7 @@ Organizations:
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
             - Host: peer0.ORG2_DOMAIN
-              Port: 9051
+              Port: PEER0_ORG2_PORT
 
 ################################################################################
 #
@@ -220,7 +220,7 @@ Orderer: &OrdererDefaults
     OrdererType: solo
 
     Addresses:
-        - orderer.ORDERER_DOMAIN:7050
+        - ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN:ORDERER_PORT
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -244,7 +244,7 @@ Orderer: &OrdererDefaults
         # Brokers: A list of Kafka brokers to which the orderer connects
         # NOTE: Use IP:port notation
         Brokers:
-            - 127.0.0.1:9092
+            - 127.0.0.1:KAFKA_ORDERER_PORT
 
     # EtcdRaft defines configuration which must be set when the "etcdraft"
     # orderertype is chosen.
@@ -254,26 +254,26 @@ Orderer: &OrdererDefaults
         # a subset of the host:port items enumerated in this list should be
         # replicated under the Orderer.Addresses key above.
         Consenters:
-            - Host: orderer.ORDERER_DOMAIN
-              Port: 7050
-              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer.ORDERER_DOMAIN/tls/server.crt
-              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer.ORDERER_DOMAIN/tls/server.crt
-            - Host: orderer2.ORDERER_DOMAIN
-              Port: 7050
-              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer2.ORDERER_DOMAIN/tls/server.crt
-              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer2.ORDERER_DOMAIN/tls/server.crt
-            - Host: orderer3.ORDERER_DOMAIN
-              Port: 7050
-              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer3.ORDERER_DOMAIN/tls/server.crt
-              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer3.ORDERER_DOMAIN/tls/server.crt
-            - Host: orderer4.ORDERER_DOMAIN
-              Port: 7050
-              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer4.ORDERER_DOMAIN/tls/server.crt
-              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer4.ORDERER_DOMAIN/tls/server.crt
-            - Host: orderer5.ORDERER_DOMAIN
-              Port: 7050
-              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer5.ORDERER_DOMAIN/tls/server.crt
-              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer5.ORDERER_DOMAIN/tls/server.crt
+            - Host: ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN
+              Port: ORDERER_PORT
+              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN/tls/server.crt
+            - Host: ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN
+              Port: ORDERER_PORT
+              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN/tls/server.crt
+            - Host: ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN
+              Port: ORDERER_PORT
+              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN/tls/server.crt
+            - Host: ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN
+              Port: ORDERER_PORT
+              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN/tls/server.crt
+            - Host: ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN
+              Port: ORDERER_PORT
+              ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN/tls/server.crt
 
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
@@ -349,12 +349,12 @@ Profiles:
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
-            SampleConsortium:
+            CONSORTIUM_NAME:
                 Organizations:
                     - *Org1
                     - *Org2
     TwoOrgsChannel:
-        Consortium: SampleConsortium
+        Consortium: CONSORTIUM_NAME
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
@@ -373,7 +373,7 @@ Profiles:
             OrdererType: kafka
             Kafka:
                 Brokers:
-                - kafka.ORDERER_DOMAIN:9092
+                - kafka.ORDERER_DOMAIN:KAFKA_ORDERER_PORT
 
             Organizations:
             - *OrdererOrg
@@ -384,7 +384,7 @@ Profiles:
             Organizations:
             - <<: *OrdererOrg
         Consortiums:
-            SampleConsortium:
+            CONSORTIUM_NAME:
                 Organizations:
                 - *Org1
                 - *Org2
@@ -398,32 +398,32 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: orderer.ORDERER_DOMAIN
-                  Port: 7050
+                - Host: ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN
+                  Port: ORDERER_PORT
                   ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer.ORDERER_DOMAIN/tls/server.crt
                   ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer.ORDERER_DOMAIN/tls/server.crt
-                - Host: orderer2.ORDERER_DOMAIN
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer2.ORDERER_DOMAIN/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer2.ORDERER_DOMAIN/tls/server.crt
-                - Host: orderer3.ORDERER_DOMAIN
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer3.ORDERER_DOMAIN/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer3.ORDERER_DOMAIN/tls/server.crt
-                - Host: orderer4.ORDERER_DOMAIN
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer4.ORDERER_DOMAIN/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer4.ORDERER_DOMAIN/tls/server.crt
-                - Host: orderer5.ORDERER_DOMAIN
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer5.ORDERER_DOMAIN/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer5.ORDERER_DOMAIN/tls/server.crt
+                - Host: ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN
+                  Port: ORDERER_PORT
+                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN/tls/server.crt
+                - Host: ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN
+                  Port: ORDERER_PORT
+                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN/tls/server.crt
+                - Host: ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN
+                  Port: ORDERER_PORT
+                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN/tls/server.crt
+                - Host: ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN
+                  Port: ORDERER_PORT
+                  ClientTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN/tls/server.crt
             Addresses:
-                - orderer.ORDERER_DOMAIN:7050
-                - orderer2.ORDERER_DOMAIN:7050
-                - orderer3.ORDERER_DOMAIN:7050
-                - orderer4.ORDERER_DOMAIN:7050
-                - orderer5.ORDERER_DOMAIN:7050
+                - ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN:ORDERER_PORT
+                - ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN:ORDERER_PORT
+                - ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN:ORDERER_PORT
+                - ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN:ORDERER_PORT
+                - ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN:ORDERER_PORT
 
             Organizations:
             - *OrdererOrg
@@ -434,7 +434,7 @@ Profiles:
             Organizations:
             - <<: *OrdererOrg
         Consortiums:
-            SampleConsortium:
+            CONSORTIUM_NAME:
                 Organizations:
                 - *Org1
                 - *Org2

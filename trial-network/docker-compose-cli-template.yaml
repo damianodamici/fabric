@@ -69,7 +69,7 @@ services:
       #- FABRIC_LOGGING_SPEC=DEBUG
       - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.ORG1_DOMAIN:7051
+      - CORE_PEER_ADDRESS=peer0.ORG1_DOMAIN:PEER0_ORG1_PORT
       - CORE_PEER_LOCALMSPID=ORG1_MSP_NAME
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/ORG1_DOMAIN/peers/peer0.ORG1_DOMAIN/tls/server.crt

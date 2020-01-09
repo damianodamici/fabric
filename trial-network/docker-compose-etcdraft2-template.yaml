@@ -29,7 +29,7 @@ services:
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN/tls/:/var/hyperledger/orderer/tls
         - ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN:/var/hyperledger/production/orderer
     ports:
-    - 8050:7050
+    - RAFT2_PORT:ORDERER_PORT
 
   ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN:
     extends:
@@ -44,7 +44,7 @@ services:
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN/tls/:/var/hyperledger/orderer/tls
         - ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN:/var/hyperledger/production/orderer
     ports:
-    - 9050:7050
+    - RAFT3_PORT:ORDERER_PORT
 
   ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN:
     extends:
@@ -59,7 +59,7 @@ services:
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN/tls/:/var/hyperledger/orderer/tls
         - ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN:/var/hyperledger/production/orderer
     ports:
-    - 10050:7050
+    - RAFT4_PORT:ORDERER_PORT
 
   ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN:
     extends:
@@ -74,4 +74,4 @@ services:
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN/tls/:/var/hyperledger/orderer/tls
         - ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN:/var/hyperledger/production/orderer
     ports:
-    - 11050:7050
+    - RAFT5_PORT:ORDERER_PORT
