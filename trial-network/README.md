@@ -18,4 +18,4 @@ Moreover, the following additional modes have been created for the main.sh scrip
 
 Notes: 
 
-[1] If you need to delve deeper into channel creation, remember that a channel is first defined in the configtx.yaml file (the default one is called TwoOrgsChannel, with its consortium name configurable in the defaults through the string CONSORTIUM_NAME). Such definition is then used by the configtxgen tool to create the channel's configuration transaction (channel-artifacts/channel.tx), which is in turn used by the functions in the channel mode to actually create the channel. 
+[1] If you need to delve deeper into channel configuration, remember that a channel is first defined in the configtx.yaml file (the default one is called TwoOrgsChannel, with its consortium name configurable in the defaults through the string CONSORTIUM_NAME). Such definition is then used by the configtxgen tool to create the channel's configuration transaction (channel-artifacts/channel.tx), which is in turn used by the functions in the channel mode to actually create the channel. 
