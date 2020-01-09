@@ -7,18 +7,18 @@ version: '2'
 
 services:
 
-  orderer.ORDERER_DOMAIN:
-    container_name: orderer.ORDERER_DOMAIN
+  ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN:
+    container_name: ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN
     extends:
       file: peer-base.yaml
       service: orderer-base
     volumes:
         - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ../crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer.ORDERER_DOMAIN/msp:/var/hyperledger/orderer/msp
-        - ../crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/orderer.ORDERER_DOMAIN/tls/:/var/hyperledger/orderer/tls
-        - orderer.ORDERER_DOMAIN:/var/hyperledger/production/orderer
+        - ../crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN/tls/:/var/hyperledger/orderer/tls
+        - ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN:/var/hyperledger/production/orderer
     ports:
-      - 7050:7050
+      - ORDERER_PORT:ORDERER_PORT
 
   peer0.ORG1_DOMAIN:
     container_name: peer0.ORG1_DOMAIN
@@ -27,12 +27,12 @@ services:
       service: peer-base
     environment:
       - CORE_PEER_ID=peer0.ORG1_DOMAIN
-      - CORE_PEER_ADDRESS=peer0.ORG1_DOMAIN:7051
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.ORG1_DOMAIN:7052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.ORG1_DOMAIN:8051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.ORG1_DOMAIN:7051
+      - CORE_PEER_ADDRESS=peer0.ORG1_DOMAIN:PEER0_ORG1_PORT
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:PEER0_ORG1_PORT
+      - CORE_PEER_CHAINCODEADDRESS=peer0.ORG1_DOMAIN:PEER0_ORG1_CC_PORT
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:PEER0_ORG1_CC_PORT
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.ORG1_DOMAIN:PEER1_ORG1_PORT
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.ORG1_DOMAIN:PEER0_ORG1_PORT
       - CORE_PEER_LOCALMSPID=ORG1_MSP_NAME
     volumes:
         - /var/run/:/host/var/run/
@@ -40,7 +40,7 @@ services:
         - ../crypto-config/peerOrganizations/ORG1_DOMAIN/peers/peer0.ORG1_DOMAIN/tls:/etc/hyperledger/fabric/tls
         - peer0.ORG1_DOMAIN:/var/hyperledger/production
     ports:
-      - 7051:7051
+      - PEER0_ORG1_PORT:PEER0_ORG1_PORT
 
   peer1.ORG1_DOMAIN:
     container_name: peer1.ORG1_DOMAIN
@@ -49,12 +49,12 @@ services:
       service: peer-base
     environment:
       - CORE_PEER_ID=peer1.ORG1_DOMAIN
-      - CORE_PEER_ADDRESS=peer1.ORG1_DOMAIN:8051
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
-      - CORE_PEER_CHAINCODEADDRESS=peer1.ORG1_DOMAIN:8052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.ORG1_DOMAIN:8051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.ORG1_DOMAIN:7051
+      - CORE_PEER_ADDRESS=peer1.ORG1_DOMAIN:PEER1_ORG1_PORT
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:PEER1_ORG1_PORT
+      - CORE_PEER_CHAINCODEADDRESS=peer1.ORG1_DOMAIN:PEER1_ORG1_CC_PORT
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:PEER1_ORG1_CC_PORT
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.ORG1_DOMAIN:PEER1_ORG1_PORT
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.ORG1_DOMAIN:PEER0_ORG1_PORT
       - CORE_PEER_LOCALMSPID=ORG1_MSP_NAME
     volumes:
         - /var/run/:/host/var/run/
@@ -63,7 +63,7 @@ services:
         - peer1.ORG1_DOMAIN:/var/hyperledger/production
 
     ports:
-      - 8051:8051
+      - PEER1_ORG1_PORT:PEER1_ORG1_PORT
 
   peer0.ORG2_DOMAIN:
     container_name: peer0.ORG2_DOMAIN
@@ -72,12 +72,12 @@ services:
       service: peer-base
     environment:
       - CORE_PEER_ID=peer0.ORG2_DOMAIN
-      - CORE_PEER_ADDRESS=peer0.ORG2_DOMAIN:9051
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.ORG2_DOMAIN:9052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.ORG2_DOMAIN:9051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.ORG2_DOMAIN:10051
+      - CORE_PEER_ADDRESS=peer0.ORG2_DOMAIN:PEER0_ORG2_PORT
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:PEER0_ORG2_PORT
+      - CORE_PEER_CHAINCODEADDRESS=peer0.ORG2_DOMAIN:PEER0_ORG2_CC_PORT
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:PEER0_ORG2_CC_PORT
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.ORG2_DOMAIN:PEER0_ORG2_PORT
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.ORG2_DOMAIN:PEER1_ORG2_PORT
       - CORE_PEER_LOCALMSPID=ORG2_MSP_NAME
     volumes:
         - /var/run/:/host/var/run/
@@ -85,7 +85,7 @@ services:
         - ../crypto-config/peerOrganizations/ORG2_DOMAIN/peers/peer0.ORG2_DOMAIN/tls:/etc/hyperledger/fabric/tls
         - peer0.ORG2_DOMAIN:/var/hyperledger/production
     ports:
-      - 9051:9051
+      - PEER0_ORG2_PORT:PEER0_ORG2_PORT
 
   peer1.ORG2_DOMAIN:
     container_name: peer1.ORG2_DOMAIN
@@ -94,12 +94,12 @@ services:
       service: peer-base
     environment:
       - CORE_PEER_ID=peer1.ORG2_DOMAIN
-      - CORE_PEER_ADDRESS=peer1.ORG2_DOMAIN:10051
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
-      - CORE_PEER_CHAINCODEADDRESS=peer1.ORG2_DOMAIN:10052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.ORG2_DOMAIN:10051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.ORG2_DOMAIN:9051
+      - CORE_PEER_ADDRESS=peer1.ORG2_DOMAIN:PEER1_ORG2_PORT
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:PEER1_ORG2_PORT
+      - CORE_PEER_CHAINCODEADDRESS=peer1.ORG2_DOMAIN:PEER1_ORG2_CC_PORT
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:PEER1_ORG2_CC_PORT
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.ORG2_DOMAIN:PEER1_ORG2_PORT
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.ORG2_DOMAIN:PEER0_ORG2_PORT
       - CORE_PEER_LOCALMSPID=ORG2_MSP_NAME
     volumes:
         - /var/run/:/host/var/run/
@@ -107,4 +107,4 @@ services:
         - ../crypto-config/peerOrganizations/ORG2_DOMAIN/peers/peer1.ORG2_DOMAIN/tls:/etc/hyperledger/fabric/tls
         - peer1.ORG2_DOMAIN:/var/hyperledger/production
     ports:
-      - 10051:10051
+      - PEER1_ORG2_PORT:PEER1_ORG2_PORT
