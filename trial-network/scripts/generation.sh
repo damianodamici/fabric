@@ -9,7 +9,7 @@
 function fillBaseTemplates() {
 
   echo
-  echo "Fill templates (crypto-config and configtx) with default values"
+  echo "=== Filling templates (crypto-config and configtx) with default values ==="
   echo
 
   # sed on MacOSX does not support -i flag with a null extension. We will use
@@ -36,6 +36,11 @@ function fillBaseTemplates() {
   sed $OPTS "s/ORDERER_MSP_NAME/${ORDERER_MSP_NAME}/g" configtx.yaml
   sed $OPTS "s/ORG1_MSP_NAME/${ORG1_MSP_NAME}/g" configtx.yaml
   sed $OPTS "s/ORG2_MSP_NAME/${ORG2_MSP_NAME}/g" configtx.yaml
+  sed $OPTS "s/ORDERER_PORT/${ORDERER_PORT}/g" configtx.yaml
+  sed $OPTS "s/KAFKA_ORDERER_PORT/${KAFKA_ORDERER_PORT}/g" configtx.yaml
+  sed $OPTS "s/PEER0_ORG1_PORT/${PEER0_ORG1_PORT}/g" configtx.yaml
+  sed $OPTS "s/PEER0_ORG2_PORT/${PEER0_ORG2_PORT}/g" configtx.yaml
+  sed $OPTS "s/CONSORTIUM_NAME/${CONSORTIUM_NAME}/g" configtx.yaml
   
   # If MacOSX, remove temporary backups
   if [ "$ARCH" == "Darwin" ]; then
@@ -47,7 +52,8 @@ function fillBaseTemplates() {
 # Fill docker base templates with default values
 function fillDockerBaseTemplates() {
 
-  echo "Fill Docker base templates with default values"
+  echo "=== Filling docker base templates with default values ==="
+  echo
 
   # sed on MacOSX does not support -i flag with a null extension. We will use
   # 't' for our back-up's extension and delete it at the end of the function
@@ -74,6 +80,15 @@ function fillDockerBaseTemplates() {
   sed $OPTS "s/ORDERER_MSP_NAME/${ORDERER_MSP_NAME}/g" peer-base.yaml
   sed $OPTS "s/ORG1_MSP_NAME/${ORG1_MSP_NAME}/g" docker-compose-base.yaml
   sed $OPTS "s/ORG2_MSP_NAME/${ORG2_MSP_NAME}/g" docker-compose-base.yaml
+  sed $OPTS "s/ORDERER_PORT/${ORDERER_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER0_ORG1_PORT/${PEER0_ORG1_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER0_ORG1_CC_PORT/${PEER0_ORG1_CC_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER1_ORG1_PORT/${PEER1_ORG1_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER1_ORG1_CC_PORT/${PEER1_ORG1_CC_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER0_ORG2_PORT/${PEER0_ORG2_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER0_ORG2_CC_PORT/${PEER0_ORG2_CC_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER1_ORG2_PORT/${PEER1_ORG2_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/PEER1_ORG2_CC_PORT/${PEER1_ORG2_CC_PORT}/g" docker-compose-base.yaml
   
   # If MacOSX, remove temporary backups
   if [ "$ARCH" == "Darwin" ]; then
@@ -87,7 +102,8 @@ function fillDockerBaseTemplates() {
 # Fill docker compose templates with default values
 function fillDockerComposeTemplates() {
 
-  echo "Fill Docker compose templates with default values."
+  echo "=== Filling docker compose templates with default values ==="
+  echo
 
   # sed on MacOSX does not support -i flag with a null extension. We will use
   # 't' for our back-up's extension and delete it at the end of the function
@@ -110,6 +126,19 @@ function fillDockerComposeTemplates() {
   sed $OPTS "s/ORG1_MSP_NAME/${ORG1_MSP_NAME}/g" docker-compose-cli.yaml
   sed $OPTS "s/ORG1_DOMAIN/${ORG1_DOMAIN}/g" docker-compose-cli.yaml docker-compose-couch.yaml
   sed $OPTS "s/ORG2_DOMAIN/${ORG2_DOMAIN}/g" docker-compose-cli.yaml docker-compose-couch.yaml
+  sed $OPTS "s/PEER0_ORG1_PORT/${PEER0_ORG1_PORT}/g" docker-compose-cli.yaml
+  sed $OPTS "s/ORDERER_PORT/${ORDERER_PORT}/g" docker-compose-etcdraft2.yaml
+  sed $OPTS "s/RAFT2_PORT/${RAFT2_PORT}/g" docker-compose-etcdraft2.yaml
+  sed $OPTS "s/RAFT3_PORT/${RAFT3_PORT}/g" docker-compose-etcdraft2.yaml
+  sed $OPTS "s/RAFT4_PORT/${RAFT4_PORT}/g" docker-compose-etcdraft2.yaml
+  sed $OPTS "s/RAFT5_PORT/${RAFT5_PORT}/g" docker-compose-etcdraft2.yaml
+  sed $OPTS "s/CDB_MAIN_PORT/${CDB_MAIN_PORT}/g" docker-compose-couch.yaml
+  sed $OPTS "s/CDB1_PORT/${CDB1_PORT}/g" docker-compose-couch.yaml
+  sed $OPTS "s/CDB2_PORT/${CDB2_PORT}/g" docker-compose-couch.yaml
+  sed $OPTS "s/CDB3_PORT/${CDB3_PORT}/g" docker-compose-couch.yaml
+  sed $OPTS "s/KAFKA_ORDERER_PORT/${KAFKA_ORDERER_PORT}/g" docker-compose-kafka.yaml
+  sed $OPTS "s/KZCL_PORT/${KZCL_PORT}/g" docker-compose-kafka.yaml
+  sed $OPTS "s/KZCO_PORT/${KZCO_PORT}/g" docker-compose-kafka.yaml
   
   # If MacOSX, remove temporary backups
   if [ "$ARCH" == "Darwin" ]; then
@@ -160,12 +189,12 @@ function replacePrivateKey() {
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-ca.yaml
 
   # Replace strings with default values
-  sed $OPTS "s/ORG1_NAME/${ORG1_NAME}/g" docker-compose-ca.yaml
   sed $OPTS "s/ORG1_LOWERCASE_NAME/${ORG1_LOWERCASE_NAME}/g" docker-compose-ca.yaml
   sed $OPTS "s/ORG1_DOMAIN/${ORG1_DOMAIN}/g" docker-compose-ca.yaml 
-  sed $OPTS "s/ORG2_NAME/${ORG2_NAME}/g" docker-compose-ca.yaml
   sed $OPTS "s/ORG2_LOWERCASE_NAME/${ORG2_LOWERCASE_NAME}/g" docker-compose-ca.yaml
   sed $OPTS "s/ORG2_DOMAIN/${ORG2_DOMAIN}/g" docker-compose-ca.yaml
+  sed $OPTS "s/CA_ORG1_PORT/${CA_ORG1_PORT}/g" docker-compose-ca.yaml
+  sed $OPTS "s/CA_ORG2_PORT/${CA_ORG2_PORT}/g" docker-compose-ca.yaml
 
   # If MacOSX, remove the temporary backup of the docker-compose file
   if [ "$ARCH" == "Darwin" ]; then
@@ -203,9 +232,8 @@ function generateCerts() {
     exit 1
   fi
   echo
-  echo "##########################################################"
-  echo "##### Generate certificates using cryptogen tool #########"
-  echo "##########################################################"
+  echo "=== Generating certificates using cryptogen tool ==="
+  echo
 
   if [ -d "crypto-config" ]; then
     rm -Rf crypto-config
@@ -219,7 +247,7 @@ function generateCerts() {
     exit 1
   fi
   echo
-  echo "Generate CCP files"
+  echo "=== Generating CCP files ==="
   echo
   ./scripts/ccp-generate.sh
   
@@ -243,15 +271,15 @@ function generateCerts() {
 #
 # Configtxgen consumes a file - ``configtx.yaml`` - that contains the definitions
 # for the sample network. There are three members - one Orderer Org (``OrdererOrg``)
-# and two Peer Orgs (``Org1`` & ``Org2``) each managing and maintaining two peer nodes.
-# This file also specifies a consortium - ``SampleConsortium`` - consisting of our
+# and two Peer Orgs (``ORG1_NAME`` & ``ORG2_NAME``) each managing and maintaining two peer nodes.
+# This file also specifies a consortium - ``MyConsortium`` - consisting of our
 # two Peer Orgs.  Pay specific attention to the "Profiles" section at the top of
 # this file.  You will notice that we have two unique headers. One for the orderer genesis
 # block - ``TwoOrgsOrdererGenesis`` - and one for our channel - ``TwoOrgsChannel``.
 # These headers are important, as we will pass them in as arguments when we create
 # our artifacts.  This file also contains two additional specifications that are worth
 # noting.  Firstly, we specify the anchor peers for each Peer Org
-# (``peer0.org1.example.com`` & ``peer0.org2.example.com``).  Secondly, we point to
+# (``peer0.ORG1_DOMAIN`` & ``peer0.ORG2_DOMAIN``).  Secondly, we point to
 # the location of the MSP directory for each member, in turn allowing us to store the
 # root certificates for each Org in the orderer genesis block.  This is a critical
 # concept. Now any network entity communicating with the ordering service can have
@@ -279,9 +307,8 @@ function generateChannelArtifacts() {
   fi
 
   echo
-  echo "##########################################################"
-  echo "#########  Generating Orderer Genesis block ##############"
-  echo "##########################################################"
+  echo "=== Generating Orderer Genesis block ==="
+  echo
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   echo "CONSENSUS_TYPE="$CONSENSUS_TYPE
@@ -304,9 +331,8 @@ function generateChannelArtifacts() {
     exit 1
   fi
   echo
-  echo "#################################################################"
-  echo "### Generating channel configuration transaction 'channel.tx' ###"
-  echo "#################################################################"
+  echo "=== Generating channel configuration transaction 'channel.tx' ==="
+  echo
   set -x
   configtxgen -configPath . -profile TwoOrgsChannel -outputCreateChannelTx channel-artifacts/channel.tx -channelID $CHANNEL_NAME
   res=$?
@@ -317,9 +343,8 @@ function generateChannelArtifacts() {
   fi
 
   echo
-  echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org1MSP   ##########"
-  echo "#################################################################"
+  echo "=== Generating anchor peer update for $ORG1_MSP_NAME ==="
+  echo
   set -x
   configtxgen -configPath . -profile TwoOrgsChannel -outputAnchorPeersUpdate channel-artifacts/"$ORG1_MSP_NAME"anchors.tx -channelID $CHANNEL_NAME -asOrg "$ORG1_MSP_NAME"
   res=$?
@@ -330,9 +355,8 @@ function generateChannelArtifacts() {
   fi
 
   echo
-  echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org2MSP   ##########"
-  echo "#################################################################"
+  echo "=== Generating anchor peer update for $ORG2_MSP_NAME ==="
+  echo
   set -x
   configtxgen -configPath . -profile TwoOrgsChannel -outputAnchorPeersUpdate \
     channel-artifacts/"$ORG2_MSP_NAME"anchors.tx -channelID $CHANNEL_NAME -asOrg "$ORG2_MSP_NAME"

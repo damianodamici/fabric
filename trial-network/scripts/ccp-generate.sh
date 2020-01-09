@@ -26,9 +26,9 @@ function yaml_ccp {
         ccp-template.yaml | sed -e $'s/\\\\n/\\\n        /g'
 }
 
-P0PORT=7051
-P1PORT=8051
-CAPORT=7054
+P0PORT="$PEER0_ORG1_PORT"
+P1PORT="$PEER1_ORG1_PORT"
+CAPORT="$CA_ORG1_PORT"
 PEERPEM=crypto-config/peerOrganizations/"$ORG1_DOMAIN"/tlsca/tlsca."$ORG1_DOMAIN"-cert.pem
 CAPEM=crypto-config/peerOrganizations/"$ORG1_DOMAIN"/ca/ca."$ORG1_DOMAIN"-cert.pem
 
@@ -41,9 +41,9 @@ sed -i "s/ORG_MSP_NAME/${ORG1_MSP_NAME}/g" connection-org1.json connection-org1.
 sed -i "s/ORG_LOWERCASE_NAME/${ORG1_LOWERCASE_NAME}/g" connection-org1.json connection-org1.yaml
 
 
-P0PORT=9051
-P1PORT=10051
-CAPORT=8054
+P0PORT="$PEER0_ORG2_PORT"
+P1PORT="$PEER1_ORG2_PORT"
+CAPORT="$CA_ORG2_PORT"
 PEERPEM=crypto-config/peerOrganizations/"$ORG2_DOMAIN"/tlsca/tlsca."$ORG2_DOMAIN"-cert.pem
 CAPEM=crypto-config/peerOrganizations/"$ORG2_DOMAIN"/ca/ca."$ORG2_DOMAIN"-cert.pem
 
