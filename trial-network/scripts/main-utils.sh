@@ -18,6 +18,8 @@ function assignModeString() {
 	  EXPMODE="Generating certs and genesis block"
 	elif [ "$MODE" == "channel" ]; then
 	  EXPMODE="Creating channel, setting anchor peers, and having peers join it"
+	elif [ "$MODE" == "chaincode" ]; then
+	  EXPMODE="Installing test chaincode, instantiating it, and testing its functioning"
 	else
 	  printHelp
 	  exit 1
@@ -43,6 +45,7 @@ function printHelp() {
   echo "      - 'restart' - restart the network"
   echo "      - 'generate' - generate required certificates and genesis block"
   echo "      - 'channel' - create channel, set anchor peers, and have peers join it"
+  echo "      - 'chaincode' - install test chaincode, instantiate it, and test its functioning"
   echo "    -c <channel name> - channel name to use (defaults to \"mychannel\")"
   echo "    -t <timeout> - CLI timeout duration in seconds (defaults to 10)"
   echo "    -d <delay> - delay duration in seconds (defaults to 3)"
@@ -52,7 +55,6 @@ function printHelp() {
   echo "    -o <consensus-type> - the consensus-type of the ordering service: solo (default), kafka, or etcdraft"
   echo "    -i <imagetag> - the tag to be used to launch the network (defaults to \"latest\")"
   echo "    -a - do not launch certificate authorities (launched by default)"
-  echo "    -n - do not deploy chaincode (abstore chaincode is deployed by default)"
   echo "    -v - verbose mode"
   echo "  main.sh -h (print this message)"
   echo

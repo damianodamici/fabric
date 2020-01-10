@@ -89,6 +89,7 @@ function fillDockerBaseTemplates() {
   sed $OPTS "s/PEER0_ORG2_CC_PORT/${PEER0_ORG2_CC_PORT}/g" docker-compose-base.yaml
   sed $OPTS "s/PEER1_ORG2_PORT/${PEER1_ORG2_PORT}/g" docker-compose-base.yaml
   sed $OPTS "s/PEER1_ORG2_CC_PORT/${PEER1_ORG2_CC_PORT}/g" docker-compose-base.yaml
+  sed $OPTS "s/NETWORK_NAME/${NETWORK_NAME}/g" peer-base.yaml
   
   # If MacOSX, remove temporary backups
   if [ "$ARCH" == "Darwin" ]; then
@@ -139,6 +140,7 @@ function fillDockerComposeTemplates() {
   sed $OPTS "s/KAFKA_ORDERER_PORT/${KAFKA_ORDERER_PORT}/g" docker-compose-kafka.yaml
   sed $OPTS "s/KZCL_PORT/${KZCL_PORT}/g" docker-compose-kafka.yaml
   sed $OPTS "s/KZCO_PORT/${KZCO_PORT}/g" docker-compose-kafka.yaml
+  sed $OPTS "s/NETWORK_NAME/${NETWORK_NAME}/g" docker-compose-cli.yaml docker-compose-couch.yaml docker-compose-etcdraft2.yaml docker-compose-kafka.yaml
   
   # If MacOSX, remove temporary backups
   if [ "$ARCH" == "Darwin" ]; then
@@ -195,6 +197,7 @@ function replacePrivateKey() {
   sed $OPTS "s/ORG2_DOMAIN/${ORG2_DOMAIN}/g" docker-compose-ca.yaml
   sed $OPTS "s/CA_ORG1_PORT/${CA_ORG1_PORT}/g" docker-compose-ca.yaml
   sed $OPTS "s/CA_ORG2_PORT/${CA_ORG2_PORT}/g" docker-compose-ca.yaml
+  sed $OPTS "s/NETWORK_NAME/${NETWORK_NAME}/g" docker-compose-ca.yaml
 
   # If MacOSX, remove the temporary backup of the docker-compose file
   if [ "$ARCH" == "Darwin" ]; then
@@ -252,7 +255,7 @@ function generateCerts() {
   ./scripts/ccp-generate.sh
   
   # This needs to be done because some paths in the msp config.yaml are erroneously written with \ instead of /
-  echo "Fix path bug"
+  echo "=== Fixing path bug ==="
   echo
   find crypto-config -type f -name "config.yaml" -exec sed -i 's/\\/\//g' {} \;
   

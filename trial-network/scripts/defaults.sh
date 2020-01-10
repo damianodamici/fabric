@@ -10,6 +10,10 @@
 # disable verbose logging level
 function exportDefaults() {
 
+  #################################################
+  ################ SCRIPT DEFAULTS ################
+  #################################################
+
   # prepending $PWD/../bin to PATH to ensure we are picking up the correct binaries
   # this may be commented out to resolve installed version of tools if desired
   export PATH=${PWD}/../bin:${PWD}:$PATH
@@ -20,11 +24,22 @@ function exportDefaults() {
   # disable verbose logging level
   export VERBOSE=false
 
+  # default language for chaincode
+  export LANGUAGE=golang
+  
+  #################################################
+  ############### NETWORK DEFAULTS ################
+  #################################################
+
+  # default network name
+  export NETWORK_NAME=test
+  
+  #################################################
+  ############### ORDERER DEFAULTS ################
+  #################################################
+  
   # default consensus type
   export CONSENSUS_TYPE=solo
-
-  # default language for chaincode
-  export LANGUAGE=node
 
   # default orderer name
   export ORDERER_NAME=Orderer
@@ -37,37 +52,7 @@ function exportDefaults() {
 
   # default orderer MSP name and ID
   export ORDERER_MSP_NAME="$ORDERER_NAME"MSP
-
-  # default org1 name
-  export ORG1_NAME=Org1
-
-  # default org1 name (lowercase)
-  export ORG1_LOWERCASE_NAME="${ORG1_NAME,,}"
-
-  # default org1 domain
-  export ORG1_DOMAIN="$ORG1_LOWERCASE_NAME".example.com
-
-  # default org1 MSP name and ID
-  export ORG1_MSP_NAME="$ORG1_NAME"MSP
-
-  # default org2 name
-  export ORG2_NAME=Org2	
-
-  # default org2 name (lowercase)
-  export ORG2_LOWERCASE_NAME="${ORG2_NAME,,}"
-
-  # default org2 domain
-  export ORG2_DOMAIN="$ORG2_LOWERCASE_NAME".example.com
-
-  # default org2 MSP name and ID
-  export ORG2_MSP_NAME="$ORG2_NAME"MSP
-
-  # default consortium name
-  export CONSORTIUM_NAME="MyConsortium"
-
-  # default channel name
-  export CHANNEL_NAME="mychannel"
-
+  
   # default port for orderer
   export ORDERER_PORT=7050
 
@@ -92,6 +77,22 @@ function exportDefaults() {
   # default port for kafka zookeper connect
   export KZCO_PORT=2181
 
+  #################################################
+  ################# ORG1 DEFAULTS #################
+  #################################################
+ 
+  # default org1 name
+  export ORG1_NAME=Org1
+
+  # default org1 name (lowercase)
+  export ORG1_LOWERCASE_NAME="${ORG1_NAME,,}"
+
+  # default org1 domain
+  export ORG1_DOMAIN="$ORG1_LOWERCASE_NAME".example.com
+
+  # default org1 MSP name and ID
+  export ORG1_MSP_NAME="$ORG1_NAME"MSP
+
   # default port for peer0 of org1
   export PEER0_ORG1_PORT=7051
 
@@ -103,6 +104,25 @@ function exportDefaults() {
 
   # default chaincode port for peer1 of org1
   export PEER1_ORG1_CC_PORT=8052
+  
+  # default port for org1 CA
+  export CA_ORG1_PORT=7054
+
+  #################################################
+  ################# ORG2 DEFAULTS #################
+  #################################################
+
+  # default org2 name
+  export ORG2_NAME=Org2	
+
+  # default org2 name (lowercase)
+  export ORG2_LOWERCASE_NAME="${ORG2_NAME,,}"
+
+  # default org2 domain
+  export ORG2_DOMAIN="$ORG2_LOWERCASE_NAME".example.com
+
+  # default org2 MSP name and ID
+  export ORG2_MSP_NAME="$ORG2_NAME"MSP
 
   # default port for peer0 of org2
   export PEER0_ORG2_PORT=9051
@@ -116,15 +136,26 @@ function exportDefaults() {
   # default chaincode port for peer1 of org2
   export PEER1_ORG2_CC_PORT=10052
 
-  # default port for org1 CA
-  export CA_ORG1_PORT=7054
-
   # default port for org2 CA
   export CA_ORG2_PORT=8054
+
+  #################################################
+  ############### CHANNEL DEFAULTS ################
+  #################################################
+
+  # default consortium name
+  export CONSORTIUM_NAME="MyConsortium"
+
+  # default channel name
+  export CHANNEL_NAME="mychannel"
 
   # default main port for couchdb
   export CDB_MAIN_PORT=5984
 
+  #################################################
+  ############### COUCHDB DEFAULTS ################
+  #################################################
+  
   # default port for couchdb1
   export CDB1_PORT=6984
  

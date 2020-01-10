@@ -26,6 +26,7 @@ ORDERER_PORT="${14}"
 COUNTER=1
 MAX_RETRY=10
 
+# Echo channel name
 echo
 echo "Channel name : '${CHANNEL_NAME}'"
 echo
