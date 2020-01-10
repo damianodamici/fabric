@@ -49,7 +49,7 @@ assignModeString
 
 # Here we parse the command line arguments
 # And assign them to the relevant variable through $OPTARG
-while getopts "h?c:t:d:f:s:l:i:o:anv" opt; do
+while getopts "h?c:t:d:f:s:l:i:o:av" opt; do
   case "$opt" in
   h | \?)
 	printHelp
@@ -82,9 +82,6 @@ while getopts "h?c:t:d:f:s:l:i:o:anv" opt; do
   a)
 	CERTIFICATE_AUTHORITIES=false
 	;;
-  n)
-	NO_CHAINCODE=true
-	;;
   v)
 	VERBOSE=true
 	;;
@@ -112,6 +109,9 @@ elif [ "${MODE}" == "restart" ]; then ## Restart the network
 elif [ "${MODE}" == "channel" ]; then ## Create channel, set anchor peers, and have peers join it
   # here we need to feed all this input as the env variables are lost when we get into the cli
   docker exec cli scripts/ch-mode.sh $CHANNEL_NAME $ORDERER_LOWERCASE_NAME $ORDERER_DOMAIN $ORG1_NAME $ORG1_DOMAIN $ORG2_NAME $ORG2_DOMAIN $ORG1_MSP_NAME $ORG2_MSP_NAME $PEER0_ORG1_PORT $PEER1_ORG1_PORT $PEER0_ORG2_PORT $PEER1_ORG2_PORT $ORDERER_PORT
+elif [ "${MODE}" == "chaincode" ]; then ## Install test chaincode, instantiate it, and test its functioning
+  # here we need to feed all this input as the env variables are lost when we get into the cli
+  docker exec cli scripts/cc-mode.sh $CHANNEL_NAME $ORDERER_LOWERCASE_NAME $ORDERER_DOMAIN $ORG1_NAME $ORG1_DOMAIN $ORG2_NAME $ORG2_DOMAIN $ORG1_MSP_NAME $ORG2_MSP_NAME $PEER0_ORG1_PORT $PEER1_ORG1_PORT $PEER0_ORG2_PORT $PEER1_ORG2_PORT $ORDERER_PORT $LANGUAGE
 else
   printHelp
   exit 1

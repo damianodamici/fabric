@@ -12,7 +12,7 @@ volumes:
   ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN:
 
 networks:
-  byfn:
+  NETWORK_NAME:
 
 services:
 
@@ -22,7 +22,7 @@ services:
       service: orderer-base
     container_name: ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN
     networks:
-    - byfn
+    - NETWORK_NAME
     volumes:
         - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME2.ORDERER_DOMAIN/msp:/var/hyperledger/orderer/msp
@@ -37,7 +37,7 @@ services:
       service: orderer-base
     container_name: ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN
     networks:
-    - byfn
+    - NETWORK_NAME
     volumes:
         - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME3.ORDERER_DOMAIN/msp:/var/hyperledger/orderer/msp
@@ -52,7 +52,7 @@ services:
       service: orderer-base
     container_name: ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN
     networks:
-    - byfn
+    - NETWORK_NAME
     volumes:
         - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME4.ORDERER_DOMAIN/msp:/var/hyperledger/orderer/msp
@@ -67,7 +67,7 @@ services:
       service: orderer-base
     container_name: ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN
     networks:
-    - byfn
+    - NETWORK_NAME
     volumes:
         - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
         - ./crypto-config/ordererOrganizations/ORDERER_DOMAIN/orderers/ORDERER_LOWERCASE_NAME5.ORDERER_DOMAIN/msp:/var/hyperledger/orderer/msp

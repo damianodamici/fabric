@@ -6,7 +6,7 @@
 version: '2'
 
 networks:
-  byfn:
+  NETWORK_NAME:
 
 services:
   ca0:
@@ -25,7 +25,7 @@ services:
       - ./crypto-config/peerOrganizations/ORG1_DOMAIN/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca_ORG1_LOWERCASE_NAME
     networks:
-      - byfn
+      - NETWORK_NAME
 
   ca1:
     image: hyperledger/fabric-ca:$IMAGE_TAG
@@ -43,4 +43,4 @@ services:
       - ./crypto-config/peerOrganizations/ORG2_DOMAIN/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca_ORG2_LOWERCASE_NAME
     networks:
-      - byfn
+      - NETWORK_NAME

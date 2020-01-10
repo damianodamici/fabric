@@ -13,7 +13,7 @@ volumes:
   peer1.ORG2_DOMAIN:
 
 networks:
-  byfn:
+  NETWORK_NAME:
 
 services:
 
@@ -23,7 +23,7 @@ services:
       service: ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN
     container_name: ORDERER_LOWERCASE_NAME.ORDERER_DOMAIN
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer0.ORG1_DOMAIN:
     container_name: peer0.ORG1_DOMAIN
@@ -31,7 +31,7 @@ services:
       file:  base/docker-compose-base.yaml
       service: peer0.ORG1_DOMAIN
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer1.ORG1_DOMAIN:
     container_name: peer1.ORG1_DOMAIN
@@ -39,7 +39,7 @@ services:
       file:  base/docker-compose-base.yaml
       service: peer1.ORG1_DOMAIN
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer0.ORG2_DOMAIN:
     container_name: peer0.ORG2_DOMAIN
@@ -47,7 +47,7 @@ services:
       file:  base/docker-compose-base.yaml
       service: peer0.ORG2_DOMAIN
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer1.ORG2_DOMAIN:
     container_name: peer1.ORG2_DOMAIN
@@ -55,7 +55,7 @@ services:
       file:  base/docker-compose-base.yaml
       service: peer1.ORG2_DOMAIN
     networks:
-      - byfn
+      - NETWORK_NAME
 
   cli:
     container_name: cli
@@ -91,4 +91,4 @@ services:
       - peer0.ORG2_DOMAIN
       - peer1.ORG2_DOMAIN
     networks:
-      - byfn
+      - NETWORK_NAME

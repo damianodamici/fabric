@@ -11,7 +11,7 @@
 version: '2'
 
 networks:
-  byfn:
+  NETWORK_NAME:
 
 services:
   zookeeper.ORDERER_DOMAIN:
@@ -21,7 +21,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: KZCL_PORT
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-    - byfn
+    - NETWORK_NAME
 
   kafka.ORDERER_DOMAIN:
     container_name: kafka.ORDERER_DOMAIN
@@ -40,4 +40,4 @@ services:
       - KAFKA_MIN_INSYNC_REPLICAS=1
       - KAFKA_DEFAULT_REPLICATION_FACTOR=1
     networks:
-    - byfn
+    - NETWORK_NAME

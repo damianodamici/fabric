@@ -6,7 +6,7 @@
 version: '2'
 
 networks:
-  byfn:
+  NETWORK_NAME:
 
 services:
   couchdb0:
@@ -22,7 +22,7 @@ services:
     ports:
       - "CDB_MAIN_PORT:CDB_MAIN_PORT"
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer0.ORG1_DOMAIN:
     environment:
@@ -49,7 +49,7 @@ services:
     ports:
       - "CDB1_PORT:CDB_MAIN_PORT"
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer1.ORG1_DOMAIN:
     environment:
@@ -76,7 +76,7 @@ services:
     ports:
       - "CDB2_PORT:CDB_MAIN_PORT"
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer0.ORG2_DOMAIN:
     environment:
@@ -103,7 +103,7 @@ services:
     ports:
       - "CDB3_PORT:CDB_MAIN_PORT"
     networks:
-      - byfn
+      - NETWORK_NAME
 
   peer1.ORG2_DOMAIN:
     environment:
