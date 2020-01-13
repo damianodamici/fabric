@@ -48,6 +48,7 @@ chaincodeQuery() {
   ORG=$2
   setGlobals $PEER $ORG
   EXPECTED_RESULT=$3
+echo
   echo "=== Querying on peer${PEER} of ${ORG_NAME} on channel '$CHANNEL_NAME' ==="
   local rc=1
   local starttime=$(date +%s)
@@ -58,7 +59,9 @@ chaincodeQuery() {
     test "$(($(date +%s) - starttime))" -lt "$TIMEOUT" -a $rc -ne 0
   do
     sleep $DELAY
+	echo
     echo "=== Attempting to query peer${PEER} of ${ORG_NAME} ...$(($(date +%s) - starttime)) secs ==="
+	echo
     set -x
     peer chaincode query -C $CHANNEL_NAME -n mychaincode -c '{"Args":["query","a"]}' >&log.txt
     res=$?
@@ -74,9 +77,12 @@ chaincodeQuery() {
   echo
   cat log.txt
   if test $rc -eq 0; then
+	echo
     echo "=== Query successful on peer${PEER} of ${ORG_NAME} on channel '$CHANNEL_NAME' ==="
   else
+	echo
     echo "!!! Query result on peer${PEER} of ${ORG_NAME} is INVALID !!!"
+	echo
     echo "=== ERROR !!! FAILED to execute script ==="
     echo
     exit 1
@@ -97,7 +103,7 @@ parsePeerConnectionParameters() {
   PEERS=""
   while [ "$#" -gt 0 ]; do
     setGlobals $1 $2
-    PEER="peer$1.org$2"
+    PEER="peer$1.${ORG_NAME,,}"
     PEERS="$PEERS $PEER"
     PEER_CONN_PARMS="$PEER_CONN_PARMS --peerAddresses $CORE_PEER_ADDRESS"
     if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "true" ]; then
@@ -135,6 +141,6 @@ chaincodeInvoke() {
   fi
   cat log.txt
   verifyResult $res "Invoke execution failed"
-  echo "=== Invoke transaction successful on $PEERS on channel '$CHANNEL_NAME' ==="
   echo
+  echo "=== Invoke transaction successful on $PEERS on channel '$CHANNEL_NAME' ==="
 }

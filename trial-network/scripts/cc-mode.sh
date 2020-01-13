@@ -33,6 +33,7 @@ fi
 # Defaults 
 : ${DELAY:="3"}
 : ${VERBOSE:="false"}
+: ${TIMEOUT:="10"}
 
 COUNTER=1
 MAX_RETRY=10
@@ -72,20 +73,19 @@ echo
 instantiateChaincode 0 2
 
 # Query chaincode on peer0.org1
-#setGlobals 0 1
-#echo "=== Querying chaincode on peer${PEER} of ${ORG_NAME} ==="
-#echo
-#chaincodeQuery 0 1 100
+setGlobals 0 1
+echo "=== Querying chaincode on peer${PEER} of ${ORG_NAME} ==="
+chaincodeQuery 0 1 100
 
 # Invoke chaincode on peer0.org1 and peer0.org2
-#echo
-#echo "=== Sending invoke transaction between the peer0 of the two orgs ==="
-#chaincodeInvoke 0 1 0 2
+echo
+echo "=== Sending invoke transaction between the peer0 of the two orgs ==="
+chaincodeInvoke 0 1 0 2
 
 # Query on chaincode on peer1.org2, check if the result is 90
-#setGlobals 1 2
-#echo
-#echo "=== Querying chaincode on peer${PEER} of ${ORG_NAME} ==="
-#chaincodeQuery 1 2 90
+setGlobals 1 2
+echo
+echo "=== Querying chaincode on peer${PEER} of ${ORG_NAME} ==="
+chaincodeQuery 1 2 90
 	
 exit 0
