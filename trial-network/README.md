@@ -12,9 +12,11 @@ This was done with two purposes. First, to isolate the different functions logic
 
 With the latter purpose in mind all yaml files have been converted into templates that are "filled" by the bootstrapping script at runtime. This enables the defaults to be propagated to all necessary files.
 
-Moreover, the following additional modes have been created for the main.sh script:
+Moreover, by refactoring the end-to-end testing script the following additional modes have been created for the main.sh script:
 
 - Channel Mode: this mode, invocable with the command './main.sh channel', creates a channel according to the default configuration [1], sets the anchor peers for each of the two initial orgs [2], and makes all peers for each of the two orgs join the channel. 
+
+- Chaincode Mode: this mode, invocable with the command './main.sh chaincode', installs the test chaincode on all peers of each of the two orgs, instantiates it [4], and tests its functioning by querying the initial state, invoking a change, and querying again to verify that the change has been propagated.
 
 Notes: 
 
@@ -23,3 +25,5 @@ Notes:
 [2] An anchor peer is a peer node on a channel that all other peers can discover and communicate with. Each member on a channel has an anchor peer (or multiple anchor peers to prevent single point of failure), allowing for peers belonging to different members to discover all existing peers on a channel.
 
 [3] Consortia and their members are first defined under the orderer definition. Here you need to specify all the consortia that you want to have in the network. A single consortium is then referred to in the channel definition so that the channel is defined to mirror that consortium. The information on all of a network's consortia is in itself contained by something called a system channel. Its name (or ID) (defined in the defaults with the string SYS_CHANNEL) is passed as an argument when using the configtxgen tool to build the orderer genesis block and should not be mistaken with the name (or ID) that is later supplied to the same tool when building the channel.tx. In short, all consortia details are held within the system channel, whereas a single consortium is implemented within the network through its mirroring channel that is first defined in a channel.tx by the confgitxgen tool, and then instantiated with the channel mode.
+
+[4] While every peer needs the same version of the chaincode installed on itself since everybody needs to be able to execute and verify incoming queries/invokes, chaincode only needs to be instantiated once within the channel for it to be considered "operative".
