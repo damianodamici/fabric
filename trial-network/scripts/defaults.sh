@@ -25,7 +25,7 @@ function exportDefaults() {
   export VERBOSE=false
 
   # default language for chaincode
-  export LANGUAGE=golang
+  export LANGUAGE=node
   
   #################################################
   ############### NETWORK DEFAULTS ################
@@ -164,7 +164,7 @@ function exportDefaults() {
   
   # default port for couchdb3
   export CDB3_PORT=8984
-	
+  
 }
 
 # Obtain the OS and Architecture string that will be used to select the correct

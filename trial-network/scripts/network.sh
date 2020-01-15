@@ -61,27 +61,30 @@ function networkUp() {
 
 # Tear down running network
 function networkDown() {
-  
-  # stop org1 and org2 containers
+
+  # export new org defaults 
+  exportNewOrgDefaults
+
+  # stop containers
   # stop kafka and zookeeper containers in case we're running with kafka consensus-type
-  docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_RAFT2 -f $COMPOSE_FILE_CA down --volumes --remove-orphans
+  docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_RAFT2 -f $COMPOSE_FILE_CA -f $COMPOSE_FILE_NEW_ORG -f $COMPOSE_FILE_COUCH_NEW_ORG down --volumes --remove-orphans
 
   # Don't remove the generated artifacts -- note, the ledgers are always removed
   if [ "$MODE" != "restart" ]; then
     # Bring down the network, deleting the volumes
-    #Delete any ledger backups
+    # Delete any ledger backups
     docker run -v $PWD:/tmp/first-network --rm hyperledger/fabric-tools:$IMAGETAG rm -Rf /tmp/first-network/ledgers-backup
-    #Cleanup the chaincode containers
+    # Cleanup the chaincode containers
     clearContainers
-    #Cleanup images
+    # Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
+    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./new-org-artifacts/crypto-config/ channel-artifacts/"${NEW_ORG_LOWERCASE_NAME}".json
     # remove all docker compose files generated from templates
-    rm -f docker-compose-ca.yaml docker-compose-ca.yaml docker-compose-cli.yaml docker-compose-couch.yaml docker-compose-etcdraft2.yaml docker-compose-kafka.yaml base/peer-base.yaml base/docker-compose-base.yaml
+    rm -f docker-compose-ca.yaml docker-compose-ca.yaml docker-compose-cli.yaml docker-compose-couch.yaml docker-compose-etcdraft2.yaml docker-compose-kafka.yaml docker-compose-couch-"${NEW_ORG_LOWERCASE_NAME}".yaml docker-compose-"${NEW_ORG_LOWERCASE_NAME}".yaml base/peer-base.yaml base/docker-compose-base.yaml
     # remove base config files generated from templates
-	rm -f crypto-config.yaml configtx.yaml
+	rm -f crypto-config.yaml configtx.yaml ./new-org-artifacts/crypto-config.yaml ./new-org-artifacts/configtx.yaml
     # remove connection profiles
-	rm -f connection-org1.yaml connection-org1.json connection-org2.yaml connection-org2.json
+	rm -f connection-"${ORG1_LOWERCASE_NAME}".yaml connection-"${ORG1_LOWERCASE_NAME}".json connection-"${ORG2_LOWERCASE_NAME}".yaml connection-"${ORG2_LOWERCASE_NAME}".json connection-"${NEW_ORG_LOWERCASE_NAME}".yaml connection-"${NEW_ORG_LOWERCASE_NAME}".json
   fi
 }

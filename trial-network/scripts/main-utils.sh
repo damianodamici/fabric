@@ -20,6 +20,8 @@ function assignModeString() {
 	  EXPMODE="Creating channel, setting anchor peers, and having peers join it"
 	elif [ "$MODE" == "chaincode" ]; then
 	  EXPMODE="Installing test chaincode, instantiating it, and testing its functioning"
+	elif [ "$MODE" == "addorg" ]; then
+	  EXPMODE="Adding new org to network and have it join the channel"
 	else
 	  printHelp
 	  exit 1
@@ -46,6 +48,7 @@ function printHelp() {
   echo "      - 'generate' - generate required certificates and genesis block"
   echo "      - 'channel' - create channel, set anchor peers, and have peers join it"
   echo "      - 'chaincode' - install test chaincode, instantiate it, and test its functioning"
+  echo "      - 'addorg' - add new org to network and have it join the channel"
   echo "    -c <channel name> - channel name to use (defaults to \"mychannel\")"
   echo "    -t <timeout> - CLI timeout duration in seconds (defaults to 10)"
   echo "    -d <delay> - delay duration in seconds (defaults to 3)"
@@ -94,7 +97,7 @@ function askProceed() {
 # Obtain CONTAINER_IDS and remove them
 # TODO Might want to make this optional - could clear other containers
 function clearContainers() {
-  CONTAINER_IDS=$(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
+  CONTAINER_IDS=$(docker ps -aq)
   if [ -z "$CONTAINER_IDS" -o "$CONTAINER_IDS" == " " ]; then
     echo "---- No containers available for deletion ----"
   else
@@ -106,7 +109,7 @@ function clearContainers() {
 # specifically the following images are often left behind:
 # TODO list generated image naming patterns
 function removeUnwantedImages() {
-  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*/) {print $3}')
+  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*.mychaincode.*/) {print $3}')
   if [ -z "$DOCKER_IMAGE_IDS" -o "$DOCKER_IMAGE_IDS" == " " ]; then
     echo "---- No images available for deletion ----"
   else

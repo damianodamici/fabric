@@ -10,6 +10,7 @@
 ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/"$ORDERER_DOMAIN"/orderers/"$ORDERER_LOWERCASE_NAME"."$ORDERER_DOMAIN"/msp/tlscacerts/tlsca."$ORDERER_DOMAIN"-cert.pem
 PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/"$ORG1_DOMAIN"/peers/peer0."$ORG1_DOMAIN"/tls/ca.crt
 PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/"$ORG2_DOMAIN"/peers/peer0."$ORG2_DOMAIN"/tls/ca.crt
+PEER0_NEW_ORG_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/"$NEW_ORG_DOMAIN"/peers/peer0."$NEW_ORG_DOMAIN"/tls/ca.crt
 
 # verify the result of the script
 verifyResult() {
@@ -44,6 +45,17 @@ setGlobals() {
       CORE_PEER_ADDRESS=peer0."$ORG2_DOMAIN":"$PEER0_ORG2_PORT"
     else
       CORE_PEER_ADDRESS=peer1."$ORG2_DOMAIN":"$PEER1_ORG2_PORT"
+    fi
+	
+  elif [ $ORG -eq 3 ]; then
+    CORE_PEER_LOCALMSPID="$NEW_ORG_MSP_NAME"
+    CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_NEW_ORG_CA
+    ORG_NAME="$NEW_ORG_NAME"
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/"$NEW_ORG_DOMAIN"/users/Admin@"$NEW_ORG_DOMAIN"/msp
+    if [ $PEER -eq 0 ]; then
+      CORE_PEER_ADDRESS=peer0."$NEW_ORG_DOMAIN":"$PEER0_NEW_ORG_PORT"
+    else
+      CORE_PEER_ADDRESS=peer1."$NEW_ORG_DOMAIN":"$PEER1_NEW_ORG_PORT"
     fi
 	
   else
