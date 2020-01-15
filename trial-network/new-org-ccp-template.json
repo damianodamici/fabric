@@ -1,0 +1,43 @@
+{
+    "name": "connection-profile-NEW_ORG_LOWERCASE_NAME",
+    "version": "1.0.0",
+    "client": {
+        "organization": "NEW_ORG_NAME",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "NEW_ORG_NAME": {
+            "mspid": "NEW_ORG_MSP_NAME",
+            "peers": [
+                "peer0.NEW_ORG_DOMAIN",
+                "peer1.NEW_ORG_DOMAIN"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.NEW_ORG_DOMAIN": {
+            "url": "grpcs://localhost:PEER0_NEW_ORG_PORT",
+            "tlsCACerts": {
+                "path": "new-org-artifacts/crypto-config/peerOrganizations/NEW_ORG_DOMAIN/tlsca/tlsca.NEW_ORG_DOMAIN-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.NEW_ORG_DOMAIN"
+            }
+        },
+        "peer1.NEW_ORG_DOMAIN": {
+            "url": "grpcs://localhost:PEER1_NEW_ORG_PORT",
+            "tlsCACerts": {
+                "path": "new-org-artifacts/crypto-config/peerOrganizations/NEW_ORG_DOMAIN/tlsca/tlsca.NEW_ORG_DOMAIN-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.NEW_ORG_DOMAIN"
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  peer0.NEW_ORG_DOMAIN:
+  peer1.NEW_ORG_DOMAIN:
+
+networks:
+  NETWORK_NAME:
+
+services:
+
+  peer0.NEW_ORG_DOMAIN:
+    container_name: peer0.NEW_ORG_DOMAIN
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.NEW_ORG_DOMAIN
+      - CORE_PEER_ADDRESS=peer0.NEW_ORG_DOMAIN:PEER0_NEW_ORG_PORT
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:PEER0_NEW_ORG_PORT
+      - CORE_PEER_CHAINCODEADDRESS=peer0.NEW_ORG_DOMAIN:PEER0_NEW_ORG_CC_PORT
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:PEER0_NEW_ORG_CC_PORT
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.NEW_ORG_DOMAIN:PEER1_NEW_ORG_PORT
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.NEW_ORG_DOMAIN:PEER0_NEW_ORG_PORT
+      - CORE_PEER_LOCALMSPID=NEW_ORG_MSP_NAME
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./new-org-artifacts/crypto-config/peerOrganizations/NEW_ORG_DOMAIN/peers/peer0.NEW_ORG_DOMAIN/msp:/etc/hyperledger/fabric/msp
+        - ./new-org-artifacts/crypto-config/peerOrganizations/NEW_ORG_DOMAIN/peers/peer0.NEW_ORG_DOMAIN/tls:/etc/hyperledger/fabric/tls
+        - peer0.NEW_ORG_DOMAIN:/var/hyperledger/production
+    ports:
+      - PEER0_NEW_ORG_PORT:PEER0_NEW_ORG_PORT
+    networks:
+      - NETWORK_NAME
+
+  peer1.NEW_ORG_DOMAIN:
+    container_name: peer1.NEW_ORG_DOMAIN
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.NEW_ORG_DOMAIN
+      - CORE_PEER_ADDRESS=peer1.NEW_ORG_DOMAIN:PEER1_NEW_ORG_PORT
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:PEER1_NEW_ORG_PORT
+      - CORE_PEER_CHAINCODEADDRESS=peer1.NEW_ORG_DOMAIN:PEER1_NEW_ORG_CC_PORT
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:PEER1_NEW_ORG_CC_PORT
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.NEW_ORG_DOMAIN:PEER0_NEW_ORG_PORT
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.NEW_ORG_DOMAIN:PEER1_NEW_ORG_PORT
+      - CORE_PEER_LOCALMSPID=NEW_ORG_MSP_NAME
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./new-org-artifacts/crypto-config/peerOrganizations/NEW_ORG_DOMAIN/peers/peer1.NEW_ORG_DOMAIN/msp:/etc/hyperledger/fabric/msp
+        - ./new-org-artifacts/crypto-config/peerOrganizations/NEW_ORG_DOMAIN/peers/peer1.NEW_ORG_DOMAIN/tls:/etc/hyperledger/fabric/tls
+        - peer1.NEW_ORG_DOMAIN:/var/hyperledger/production
+    ports:
+      - PEER1_NEW_ORG_PORT:PEER1_NEW_ORG_PORT
+    networks:
+      - NETWORK_NAME
+
+
+  NEW_ORG_NAMEcli:
+    container_name: NEW_ORG_NAMEcli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=NEW_ORG_NAMEcli
+      - CORE_PEER_ADDRESS=peer0.NEW_ORG_DOMAIN:PEER0_NEW_ORG_PORT
+      - CORE_PEER_LOCALMSPID=NEW_ORG_MSP_NAME
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/NEW_ORG_DOMAIN/peers/peer0.NEW_ORG_DOMAIN/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/NEW_ORG_DOMAIN/peers/peer0.NEW_ORG_DOMAIN/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/NEW_ORG_DOMAIN/peers/peer0.NEW_ORG_DOMAIN/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/NEW_ORG_DOMAIN/users/Admin@NEW_ORG_DOMAIN/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./new-org-artifacts/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./crypto-config/peerOrganizations/ORG1_DOMAIN:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/ORG1_DOMAIN
+        - ./crypto-config/peerOrganizations/ORG2_DOMAIN:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/ORG2_DOMAIN
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+    depends_on:
+      - peer0.NEW_ORG_DOMAIN
+      - peer1.NEW_ORG_DOMAIN
+    networks:
+      - NETWORK_NAME
