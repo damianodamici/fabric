@@ -152,9 +152,11 @@ export FABRIC_CFG_PATH = $PWD
 
 Then, we’ll invoke the configtxgen tool to create the orderer genesis block. The command will look like this. 
 
-<fabric-samples-path>/bin/configtxgen -profile <yourOrdererProfile> -channelID <your-channel-id> -outputBlock ./channel-artifacts/genesis.block
+<fabric-samples-path>/bin/configtxgen -profile <yourOrdererProfile> -channelID <your-sys-channel-id> -outputBlock ./channel-artifacts/genesis.block
 
-The orderer genesis block and the subsequent artifacts we are about to create will be output into the channel-artifacts directory at the root of the current folder. The profiles are defined at the bottom of the configtx.yaml file, and they are used to mix default settings with additional configuration without overriding them. The channel ID in the above command is the name of the system channel (note that below we also define a channel ID for the actual consortium channel, this is not the same as it concerns the network system i.e. the orderer and not a specific channel).
+The argument for channelID at this point refers to the system channel. By default this is set to byfn-sys-channel. Note that below we also define a channel ID for the actual consortium channel, this is not the same as it concerns the network system i.e. the orderer and not a specific channel.
+
+The orderer genesis block and the subsequent artifacts we are about to create will be output into the channel-artifacts directory at the root of the current folder. The profiles are defined at the bottom of the configtx.yaml file, and they are used to mix default settings with additional configuration without overriding them. The channel ID in the above command is the name of the system channel 
 
 Below I have pasted the configtx.yaml file as found in first-network folder of the fabric samples, with some additional comments for clarification. 
 
